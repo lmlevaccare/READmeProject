@@ -6,8 +6,9 @@ const util = require('util');
 
 let path = require('path');
 let fs = require('fs');
+const writeFileAsync = util.promisify(fs.writeFile);
 
-
+const promptReadMe = () =>
  inquirer.prompt([
     
     {
@@ -103,9 +104,9 @@ let fs = require('fs');
 
     // })
 
-function generate(data) {
-    then((data) => {
-        return `${data.Description}
+
+const generateReadMe = (data) => {
+    return `${data.Description}
         ## Installation
         ${data.Installation}
         ## Usage 
@@ -118,15 +119,10 @@ function generate(data) {
     
     
     
-    })
+};
 
-    fs.writeFile(path.join(__dirname, '/Develop', 'README.me'), function (err)  {
-        if (err) throw err;
-        console.log('file created...');
-       
-    
-    
-    
-    }
-    )
-}
+  
+promptReadMe ()
+  .then((data) => writeFileAsync('README.md',generateReadMe(data)))
+  .then(() => console.log('Success!'))
+  .catch((err) => console.error(err));

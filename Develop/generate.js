@@ -10,6 +10,7 @@ function generateMarkdown(data) {
 * [Contributors](#contributors)
 * [Test](#test)
 * [Questions](#questions)
+
 ## Description
 
 ${data.Description}

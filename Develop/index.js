@@ -5,6 +5,10 @@ const util = require('util');
 let fs = require('fs');
 const writeFileAsync = util.promisify(fs.writeFile);
 
+
+
+
+
 const promptReadMe = () =>
  inquirer.prompt([
     
@@ -38,7 +42,8 @@ const promptReadMe = () =>
         type: 'list',
         message: 'Which open source software license was used on your project?',
         name: 'License',
-        choices: ['LGPL', 'No License', 'MIT License', 'GPL', 'Apache License', 'BSD License', 'Public Domain', 'GNU']
+        choices: ['LGPL', 'ISC', 'MIT', 'GPL', 'Apache', 'BSD', 'Public-Domain', 'GNU']
+        
     },
 
     // Contributing
@@ -53,7 +58,8 @@ const promptReadMe = () =>
         type: 'input',
         message: 'How did you demo/test or run your project?',
         name: 'Test',
-    },
+     },
+    
         
     // GITHUB User prompt
     // {
@@ -62,7 +68,7 @@ const promptReadMe = () =>
     //     name: 'Github',
     // },
         
-    // Email User prompt
+    // // Email User prompt
     // {
     //     type: 'input',
     //     message: 'What is your email?',
@@ -73,11 +79,11 @@ const promptReadMe = () =>
         type: 'list',
         message: 'Do you have further questons regarding this project',
         name: 'Questions',
-        choices: ['YES', 'NO']
+        choices: ['YES, I have further questions', 'NO, I do not have further questions']
     }
 
 ])
-  
+
 
 const generateReadMe = (data) => {
     return `
@@ -109,6 +115,7 @@ ${data.Usage}
 
 ## License
 ${data.License}
+[MIT License](https://opensource.org/licenses/MIT);
 
 ## Contributors        
 ${data.Contributors}
@@ -117,18 +124,20 @@ ${data.Contributors}
 ${data.Test}
         
 ## Questions
-For questions regarding my README.md Generator you can check out my Github Profile. Please see following link:-[Github, Profile](https://github.com/lmlevaccare);
-${data.Github}
+${data.Questions}
 
-## Email Me
-If you would like to contact me. Please see following link:-[Email](https://laurenlevaccare@icloud.com);
-${data.Email}
+
+## For questions regarding my project you can check out my Github profile or contact me via email.
+Please see following links:
+[Github, Profile](https://github.com/lmlevaccare);
+[Email](https://laurenlevaccare@icloud.com);
 `;   
 };
 
   
 promptReadMe ()
-  .then((data) => writeFileAsync('README.md',generateReadMe(data)))
-  .then(() => console.log('Success!'))
-    .catch((err) => console.error(err));
+.then((data) => writeFileAsync('README.md', generateReadMe(data)))
+.then(() => console.log('Success!'))
+.catch((err) => console.error(err));
   
+
